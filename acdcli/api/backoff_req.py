@@ -55,6 +55,7 @@ class BackOffRequest(object):
         with self.__lock:
             duration = self.__next_req - time.time()
         if duration > 5:
+            self.auth_callback.refresh_auth_token()
             logger.warning('Waiting %fs because of error(s).' % duration)
         logger.debug('Retry %i, waiting %fs' % (self.__retries, duration))
         if duration > 0:
